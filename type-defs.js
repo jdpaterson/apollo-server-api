@@ -4,12 +4,15 @@ const typeDefs = gql`
 
   # This "Book" type defines the queryable fields for every book in our data source.
   type Todo {
+    id: Int
     title: String
     description: String
     author: String
+    ownerId: Int
   }
 
   type User {
+    id: Int
     username: String
     password: String
   }
@@ -23,6 +26,15 @@ const typeDefs = gql`
   }
   type Mutation {
     login(username: String!, password: String!): String
+    updateTodo(todo: TodoInput!): Todo
+  }
+
+  input TodoInput {
+    id: Int
+    title: String
+    description: String
+    author: String
+    ownerId: Int
   }
 `;
 

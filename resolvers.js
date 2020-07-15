@@ -1,6 +1,6 @@
 const { todos, users } = require("./data");
 const { v4: uuidv4 } = require("uuid");
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError, ForbiddenError } = require("apollo-server");
 module.exports = {
   resolvers: {
     Query: {
@@ -18,6 +18,14 @@ module.exports = {
         } else {
           throw new AuthenticationError("login incorrect");
         }
+      },
+      updateTodo: (parent, { todo }, { user }) => {
+        if (!user) throw new AuthenticationError("You must be logged in");
+        const dbTodoIndex = todos.findIndex((t) => t.id == todo.id);
+        if (todos[dbTodoIndex].ownerId != user.id)
+          throw new ForbiddenError("A Todo can only be updated by its owner");
+        todos[dbTodoIndex] = { ...todos[dbTodoIndex], ...todo };
+        return todos[dbTodoIndex];
       },
     },
   },
