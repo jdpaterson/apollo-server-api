@@ -9,19 +9,21 @@ const typeDefs = gql`
     description: String
     author: String
     ownerId: Int
+    owner: User
   }
 
   type User {
     id: Int
     username: String
     password: String
+    todos: [Todo]
   }
 
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    todos: [Todo]
+    todos(todoAttributes: TodoInput!): [Todo]
     users: [User]
   }
   type Mutation {
