@@ -1,31 +1,35 @@
-const { todos, users } = require("./data");
 const { v4: uuidv4 } = require("uuid");
 const { AuthenticationError, ForbiddenError } = require("apollo-server");
+const { User, Todo } = require("./models");
 module.exports = {
   resolvers: {
     Query: {
-      todos: () => todos,
-      users: () => users,
+      todos: async () => {
+        const todos = await Todo.findAll();
+        return todos;
+      },
+      users: async () => await User.findAll(),
     },
     Mutation: {
-      login: (parent, { username, password }, context) => {
-        const user = users.find(
-          (u) => u.username === username && u.password === password
-        );
+      login: async (parent, { username, password }, context) => {
+        const user = await User.findOne({
+          username: username,
+          password: password,
+        });
         if (user) {
-          user.authToken = uuidv4();
+          await user.update({ authToken: uuidv4() });
           return user.authToken;
         } else {
           throw new AuthenticationError("login incorrect");
         }
       },
-      updateTodo: (parent, { todo }, { user }) => {
+      updateTodo: async (parent, { todo }, { user }) => {
         if (!user) throw new AuthenticationError("You must be logged in");
-        const dbTodoIndex = todos.findIndex((t) => t.id == todo.id);
-        if (todos[dbTodoIndex].ownerId != user.id)
+        const dbTodo = await Todo.findByPk(todo.id);
+        if (dbTodo.ownerId != user.id)
           throw new ForbiddenError("A Todo can only be updated by its owner");
-        todos[dbTodoIndex] = { ...todos[dbTodoIndex], ...todo };
-        return todos[dbTodoIndex];
+        await dbTodo.update({ ...todo });
+        return dbTodo;
       },
     },
   },
