@@ -1,7 +1,7 @@
 const { AuthenticationError } = require("apollo-server");
 const { ApolloServer } = require("apollo-server-express");
 const express = require("express");
-const { typeDefs } = require("./type-defs");
+const { typeDefs } = require("./graphql/type-defs");
 const { resolvers } = require("./resolvers.js");
 const { User } = require("./models");
 const DataLoader = require("dataloader");
