@@ -16,8 +16,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   Todo.init(
     {
-      ownerId: DataTypes.INTEGER,
-      title: DataTypes.STRING,
+      ownerId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       description: DataTypes.STRING,
     },
     {
