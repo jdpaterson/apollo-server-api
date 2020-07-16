@@ -23,7 +23,7 @@ const typeDefs = gql`
     username: String
     password: String
     todos: [Todo]
-    authToken: String #remove this, for testing only
+    authToken: String #TODO: remove this, for testing only
   }
 
   input UserInput {
