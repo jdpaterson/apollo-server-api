@@ -34,15 +34,15 @@ const typeDefs = gql`
   }
 
   type Query {
-    todos(todoAttributes: TodoInput): [Todo]
-    users: [User]
+    todos(todoAttributes: TodoInput): [Todo]!
+    users: [User]!
   }
 
   type Mutation {
     login(username: String!, password: String!): String
-    createTodo(todo: TodoInput!): Todo
-    updateTodo(todo: TodoInput!): Todo
-    deleteTodo(todoId: Int): Boolean
+    createTodo(todo: TodoInput!): Todo!
+    updateTodo(todo: TodoInput!): Todo!
+    deleteTodo(todoId: Int!): Boolean!
   }
 `;
 

@@ -1,4 +1,4 @@
-const { Query, Todo, User, Mutation } = require("./graphql/types");
+const { Query, Todo, User, Mutation } = require("./types");
 
 module.exports = {
   resolvers: {
