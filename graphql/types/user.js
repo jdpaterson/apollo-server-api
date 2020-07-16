@@ -1,5 +1,6 @@
 module.exports = {
   User: {
-    todos: async (user, {}, context) => await user.getTodos(),
+    // TODO: Figure out how to use DataLoader for hasMany relationships in node
+    todos: async (user, args, context) => await user.getTodos(),
   },
 };
